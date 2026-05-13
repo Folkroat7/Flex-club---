@@ -16,12 +16,6 @@ class BookingCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
 
-class BookerDestroyAPIViev (generics.DestroyAPIView):
-    permission_classes= permissions.IsAuthenticated
-
-    def get_queryset(self):
-        return Booker.objects.filter(user=self.request.user)
-    
 def mainPage (request):
     return render(request, 'main.html')
 
