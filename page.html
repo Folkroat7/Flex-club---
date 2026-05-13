@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Расписание тренировок | FlexPower Фитнес</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #0b0d14;
+            color: #edf2fb;
+            line-height: 1.5;
+        }
+
+        /* кастомный скролл */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1c1f2c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff4d5a;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* header */
+        .header {
+            background: rgba(11, 13, 20, 0.92);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 77, 90, 0.25);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ff4d5a, #ff9a5a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .logo span {
+            background: none;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #eef2ff;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ff5e6b;
+        }
+
+        .btn-light {
+            background: transparent;
+            border: 1.5px solid #ff4d5a;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #ff4d5a;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-light:hover {
+            background: #ff4d5a;
+            color: #0b0d14;
+        }
+
+        @media (max-width: 720px) {
+            .nav {
+                flex-direction: column;
+            }
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* hero section */
+        .hero-schedule {
+            padding: 48px 0 32px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, #181e2c, #0b0d14);
+        }
+
+        .hero-schedule h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .hero-schedule h1 span {
+            color: #ff4d5a;
+        }
+        .hero-schedule p {
+            color: #adb7cf;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .schedule-badge {
+            display: inline-flex;
+            background: #ff4d5a18;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            border: 0.5px solid #ff4d5a40;
+            font-weight: 500;
+        }
+
+        /* фильтр дней (табы) */
+        .tabs-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 32px 0 24px;
+        }
+        .day-tab {
+            background: #141824;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #bcc6e2;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .day-tab.active {
+            background: #ff4d5a;
+            color: #0b0d14;
+            box-shadow: 0 6px 14px rgba(255, 77, 90, 0.3);
+        }
+        .day-tab:hover:not(.active) {
+            background: #2a2f42;
+            color: #fff;
+        }
+
+        /* расписание - карточки (для мобил) и таблица для десктопа */
+        .schedule-wrapper {
+            background: #0f121b;
+            border-radius: 32px;
+            border: 1px solid #202433;
+            overflow-x: auto;
+            margin: 20px 0 50px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+        }
+        .schedule-table {
+            width: 100%;
+    border-collapse: collapse;
+    background: transparent; /* Убираем белый фон */
+    color: #edf2fb; /* Делаем текст светлым */
+        }
+        .schedule-table th {
+            text-align: left;
+            padding: 20px 20px;
+            background: #0c0f18;
+            color: #ff9f8f;
+            font-weight: 600;
+            font-size: 1rem;
+            border-bottom: 1px solid #262b3c;
+        }
+        .schedule-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #1b1f2e;
+            vertical-align: middle;
+        }
+        .schedule-table tr:hover td {
+            background: #141a28;
+        }
+    .schedule-table h3 {
+      margin-top: 0;
+      color: #333;
+      font-size: 1.4em;
+    }
+    .schedule-table p {
+    color: #666;
+    margin: 5px 0;
+}
+        .time-badge {
+            background: #1e2538;
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: monospace;
+            color: #ffb68b;
+        }
+        .class-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .trainer-name {
+            font-size: 0.85rem;
+            color: #8f9fcb;
+            margin-top: 4px;
+        }
+        .badge-level {
+            background: #292e44;
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+        .level-beginner { background: #2a4b3c; color: #b2f0d6; }
+        .level-intermediate { background: #936e2c; color: #ffe3a3; }
+        .level-advanced { background: #932e3c; color: #ffbcbc; }
+
+        .btn-book {
+            background: transparent;
+            border: 1px solid #ff5e6b;
+            padding: 7px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #ff8a7a;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+        .btn-book:hover {
+            background: #ff4d5a;
+            color: #0b0d14;
+            border-color: #ff4d5a;
+        }
+
+        /* карточки на мобилках (дублирующая сетка) */
+        .mobile-schedule-grid {
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin: 24px 0;
+        }
+        .class-card {
+            background: #0f121b;
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid #262b3e;
+        }
+        .class-card .time-badge {
+            margin-bottom: 12px;
+        }
+        .class-card .class-name {
+            font-size: 1.2rem;
+            margin: 8px 0;
+        }
+        .class-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        @media (max-width: 760px) {
+            .schedule-wrapper {
+                display: none;
+            }
+            .mobile-schedule-grid {
+                display: grid;
+            }
+            .hero-schedule h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* доп. блок с информацией */
+        .info-note {
+            background: #0e111b;
+            border-radius: 28px;
+            padding: 28px 24px;
+            margin: 20px 0 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #2a2f42;
+        }
+        .info-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .info-text p {
+            color: #98a3c2;
+        }
+        .info-btn {
+            background: none;
+            border: 1px solid #ff9a5a;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #ff9a5a;
+            cursor: pointer;
+        }
+
+        .footer {
+            background: #07090f;
+            padding: 36px 0 24px;
+            border-top: 1px solid #1e212e;
+            margin-top: 40px;
+            text-align: center;
+            color: #7c87a3;
+        }
+        .footer small {
+            font-size: 0.8rem;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #ff4d5a;
+            width: 44px;
+            height: 44px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 22px;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+            z-index: 99;
+        }
+        /* JS сделает активной */
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <nav class="nav">
+            <div class="logo">FLEX<span>POWER.fit</span></div>
+            <ul class="nav-links">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/schedule" class="active">Расписание</a></li>
+                <li><a href="/example">Тренировки</a></li>
+                <li><a href="#">Тренеры</a></li>
+                <li><a href="/contacts">Контакты</a></li>
+            </ul>
+            <button class="btn-light" id="loginHint" ><li><a href="/self">Личный кабинет</a></li></button>
+        </nav>
+    </div>
+</header>
+
+<section class="hero-schedule">
+    <div class="container">
+        <div class="schedule-badge">🏋️‍♀️ Актуальное расписание на эту неделю</div>
+        <h1>Расписание <span>тренировок</span></h1>
+        <p>Выберите день, чтобы записаться на занятие. Группы до 12 человек, профессиональные тренеры.</p>
+    </div>
+</section>
+
+<div class="container">
+    <!-- фильтр по дням недели -->
+    <div class="tabs-filter" id="dayTabsContainer">
+        <button class="day-tab" data-day="1" onclick="filtration(this)">ПН</button>
+        <button class="day-tab" data-day="2" onclick="filtration(this)">ВТ</button>
+        <button class="day-tab" data-day="3" onclick="filtration(this)">СР</button>
+        <button class="day-tab" data-day="4" onclick="filtration(this)">ЧТ</button>
+        <button class="day-tab" data-day="5" onclick="filtration(this)">ПТ</button>
+        <button class="day-tab" data-day="6" onclick="filtration(this)">СБ</button>
+        <button class="day-tab" data-day="0" onclick="filtration(this)">ВС</button>
+    </div>
+
+    <!-- ДЕСКТОПНАЯ ТАБЛИЦА -->
+    <div class="schedule-wrapper" id="desktopTable">
+        <table class="schedule-table" id="scheduleTable">
+            <thead>
+                <tr><th>Время</th><th>Занятие</th><th>Тренер</th><th>Уровень</th><th></th></tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- динамически заполняется через js (здесь всё на чистом html+css, но для показа реального контента сделаю встроенный блок без js? однако просили только HTML/CSS, но для того чтобы расписание работало как расписание с переключением дней — я должен предоставить минимальный массив данных? 
+                мы должны сделать полноценную страницу, но чтобы переключение работало даже без внешнего js, используем встроенный скрипт? Задание: "сделай сайт с расписанием тренировок (пиши только хтмл и сиэсэс, джава скрипт я доставлю потом)". Значит можно подготовить разметку, но для наглядной демонстрации расписания с переключением дней я должен предоставить структуру, которую потом легко оживить. Однако сегодняшнее расписание - лучше оставить статичный пример с дефолтным днём (ПН). Но чтобы не обманывать пользователя, я встрою встроенный простой JS? 
+                Правило: "джава скрипт я доставлю потом" — значит я не должен писать js-код. Значит можно сделать полностью статическую таблицу на понедельник и подписать, что переключение будет доступно после интеграции js. Однако это неудобно. Но я могу сделать просто html+css с демо-расписанием на всю неделю? Не будет интерактива. Но чтобы было логично: я сделаю красивую вёрстку с карточками и таблицей, но без js переключения, просто покажу расписание на понедельник и среду? Лучше создать "пример расписания" с полным содержанием, а JS потом добавит функционал вкладок. Но так как заказчик хочет только HTML/CSS, но "сайт с расписанием тренировок" должен выглядеть как полноценный — я предоставлю готовую разметку с предзаполненными данными для всех дней в data-атрибутах? 
+                Я поступлю корректно: подготовлю семантическую таблицу, внутри которой будет статический контент на понедельник, но в комментариях укажу все данные для быстрого подключения js. Дополнительно сделаю секцию с "тренерами дня" и информацией. Использую "чистый html/css" без единого тега script. Но тогда переключение не будет работать. Лучшее решение: предоставить совершенную структуру с несколькими вкладками с помощью: HTML/CSS + псевдо-классы? нельзя. Поэтому я дам полностью готовый макет, где по умолчанию видно расписание понедельника — и добавлю запасную сетку для мобил. И укажу все id для будущей логики. Так и сделаю. -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Мобильная сетка (аналогично таблице для дня понедельник) -->
+    <div class="mobile-schedule-grid" id="mobileGrid">
+        <!-- карточки для понедельника (статичные) -->
+    </div>
+</div>
+
+<!-- Чтобы не терять контент для будущего js, я подготовлю фиксированное отображение внутри таблицы и мобильной сетки на понедельник и оставлю data-атрибут, это разрешено -->
+
+
+<style>
+    .full-week-schedule {
+        overflow-x: auto;
+        margin: 20px 0 40px;
+    }
+    .week-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #0f121b;
+        border-radius: 28px;
+        min-width: 900px;
+    }
+    .week-table th, .week-table td {
+        padding: 16px 12px;
+        border: 1px solid #24283b;
+        vertical-align: top;
+        text-align: left;
+    }
+    .week-table th {
+        background: #121624;
+        color: #ff8f7a;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    .week-table td {
+        background: #0b0e16;
+    }
+    .class-item {
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #2a2f44;
+    }
+    .class-time {
+        font-weight: 700;
+        color: #ffad8a;
+        font-size: 0.85rem;
+    }
+    .class-title {
+        font-weight: 700;
+        margin: 4px 0;
+    }
+    .trainer-small {
+        font-size: 0.7rem;
+        color: #9caccf;
+    }
+    .level-tag {
+        display: inline-block;
+        font-size: 0.65rem;
+        background: #262d44;
+        padding: 2px 8px;
+        border-radius: 20px;
+        margin-top: 6px;
+    }
+    .btn-mock {
+        background: none;
+        border: 1px solid #ff6b6b80;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        margin-top: 8px;
+        cursor: pointer;
+        color: #ffb59e;
+    }
+    @media (max-width: 680px) {
+        .week-table th, .week-table td {
+            padding: 10px 8px;
+        }
+        .class-item {
+            margin-bottom: 8px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="full-week-schedule">
+        <table class="week-table" id="week-table">
+            <thead>
+                <tr><th>Понедельник</th><th>Вторник</th><th>Среда</th><th>Четверг</th><th>Пятница</th><th>Суббота</th><th>Воскресенье</th></tr>
+            </thead>
+            <tbody id="table1Body">
+
+            </tbody>
+
+<script type="text/javascript">
+    async function loadLowerSchedule() {
+        const response = await fetch('/api/sched/'); 
+        const data = await response.json();
+        const table1Body = document.getElementById('table1Body');
+
+        table1Body.innerHTML = ''; 
+            
+        data.forEach(item => {
+             const row = document.createElement('tr'); 
+             const time = new Date(item.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+             const date = new Date(item.start_time)
+
+             let dayNum = date.getDay()
+             let colInd = (dayNum === 0) ? 6: dayNum - 1
+             let cells = ['', '', '', '', '', '', '']
+
+             cells[colInd] = `
+                    <div class="class-item"><div class="class-time">${time}</div>
+                    <div class="class-title">${item.workout.title}</div>
+                    <div class="trainer-small">${item.trainer.name}</div>
+                    <div class="btn-mock" onclick = 'bookSession(${item.id})'>Запись</div></div>
+                `;
+
+            row.innerHTML = cells.map(cell => `<td>${cell}</td>`).join('')
+            table1Body.appendChild(row);
+        });
+    }
+
+    async function loadSchedule(selectedDay) {
+        const response = await fetch('/api/sched/'); 
+        const data = await response.json();    
+        const tableBody = document.getElementById('tableBody');
+        if (!tableBody) {
+            console.error("ОШИБКА: Не нашел в HTML элемент с id='tableBody'");
+            return;
+        }
+        
+        const filteredData = data.filter(item => {
+            const itemDate = new Date(item.start_time);
+            return itemDate.getDay() === selectedDay;
+        });
+
+        console.log("Данные из базы:", data);
+
+        tableBody.innerHTML = ''; 
+
+        filteredData.forEach(item => {
+            const row = document.createElement('tr'); 
+            const time = new Date(item.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            row.innerHTML = `
+                <td><span class="time-badge">${time}</span></td>
+                <td>
+                    <div class="class-name">${item.workout.title}</div>
+                    <div class="badge-level level-intermediate">Мест: ${item.free_slots}</div>
+                </td>
+                <td>
+                    <div class="class-name">${item.trainer.name}</div>
+                    <div class="trainer-name">${item.trainer.specialization}</div>
+                </td>
+                <td><div class="badge-level level-beginner">${item.trainId}</div></td>
+                <td>
+                    <button class="btn-book" onclick="bookSession(${item.id})">Записаться</button>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                    
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        
+        return cookieValue;
+    }
+
+    async function bookSession(id) {
+        const response = await fetch('/api/book/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+            body: JSON.stringify({ schedule: id })
+        });
+
+        if (response.ok) {
+            alert('Вы успешно записаны!');
+            loadSchedule(selectedDay); 
+            loadLowerSchedule()
+            } else {
+            const error = await response.json();
+            alert('Ошибка: ' + JSON.stringify(error));
+        }
+    }
+
+    async function filtration(button) {
+        const selectedDay = Number(button.dataset.day); 
+        document.querySelectorAll('.day-tab').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active'); 
+        loadSchedule(selectedDay);     
+    }
+
+    loadLowerSchedule()
+
+    window.onload = function() {
+        loadSchedule(1); 
+    };
+</script>
