@@ -24,7 +24,6 @@
             padding: 0 24px;
         }
 
-        /* ========== ХЕДЕР (полностью как на предыдущих страницах) ========== */
         .header {
             background: rgba(11, 13, 20, 0.94);
             backdrop-filter: blur(14px);
@@ -105,7 +104,6 @@
             }
         }
 
-        /* ========== Hero секция контактов ========== */
         .contacts-hero {
             padding: 50px 0 40px;
             text-align: center;
@@ -138,7 +136,6 @@
             border: 0.5px solid #ff4d5a60;
         }
 
-        /* ========== основная сетка контактов ========== */
         .contacts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -153,7 +150,6 @@
             }
         }
 
-        /* левая колонка — контактная информация */
         .info-card {
             background: #0f121b;
             border-radius: 36px;
@@ -244,7 +240,6 @@
             color: #ff8f7a;
         }
 
-        /* карта (имитация интерактивной заглушки) */
         .map-card {
             background: #0f121b;
             border-radius: 36px;
@@ -301,7 +296,6 @@
             font-weight: 600;
         }
 
-        /* форма обратной связи */
         .feedback-form {
             background: #0f121b;
             border-radius: 36px;
@@ -368,7 +362,6 @@
             transform: scale(0.99);
         }
 
-        /* Кнопка наверх (оставляем как ui) */
         .scroll-top {
             position: fixed;
             bottom: 24px;
@@ -391,7 +384,6 @@
             z-index: 99;
         }
 
-        /* футер */
         .footer {
             background: #06070e;
             padding: 40px 0 24px;
@@ -443,7 +435,6 @@
             }
         }
 
-        /* дополнительные декоративные линии */
         .divider {
             height: 2px;
             background: linear-gradient(90deg, #ff4d5a, transparent);
@@ -481,7 +472,6 @@
 
     <div class="container">
         <div class="contacts-grid">
-            <!-- Левый блок: контактные данные -->
             <div class="info-card">
                 <h2>
                     <i>📞</i> Свяжитесь с нами
@@ -535,7 +525,6 @@
                 </div>
             </div>
 
-            <!-- Правый блок: карта + филиалы -->
             <div>
                 <div class="map-card">
                     <div class="map-placeholder">
@@ -552,7 +541,6 @@
                     </div>
                 </div>
 
-                <!-- Дополнительный блок: другие клубы (в том же стиле) -->
                 <div style="margin-top: 28px; background: #0c0f18; border-radius: 30px; padding: 20px; border: 1px solid #23273b;">
                     <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;">
                         <div>
@@ -568,7 +556,6 @@
             </div>
         </div>
 
-        <!-- Форма обратной связи (без JS, но визуально готова) -->
         <div class="feedback-form" id="feedbackBlock">
             <h3>Напишите нам</h3>
             <p>Оставьте вопрос, и менеджер свяжется с вами в течение часа. Бесплатная консультация по абонементам.</p>
@@ -605,16 +592,7 @@
     </div>
 </footer>
 
-<!-- кнопка "наверх" (только визуальная, JS добавит позже) -->
 <button class="scroll-top" id="goTopBtn">↑</button>
 
-<!-- 
-    ⚡ ВНИМАНИЕ: 
-    Данная страница содержит ТОЛЬКО HTML и CSS. 
-    Ни одного тега <script> или обработчика событий inline нет. 
-    Все кнопки и интерактивные элементы имеют понятные id и классы для будущего подключения JavaScript.
-    Карта выполнена как стилизованный placeholder, но при необходимости легко заменяется на iframe от Яндекс/Google карт.
-    Стили полностью соответствуют предыдущим страницам (фитнес клуб, расписание), сохранена цветовая гамма, градиенты, hover-эффекты и адаптив.
--->
 </body>
 </html>
