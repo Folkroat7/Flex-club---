@@ -24,7 +24,6 @@
             padding: 0 24px;
         }
 
-        /* ========== ХЕДЕР ========== */
         .header {
             background: rgba(11, 13, 20, 0.94);
             backdrop-filter: blur(14px);
@@ -122,18 +121,11 @@
             color: #adb7cf;
             margin-top: 8px;
         }
-
-        /* ========== ДВЕ СЕКЦИИ (вход + кабинет) ========== */
-        /* По умолчанию показываем форму входа (как заглушку), а после "входа" (без реального js) будет блок профиля.
-           Но по заданию "без js" — я делаю два независимых блока: один для неавторизованного, второй для авторизованного.
-           Поскольку js подключат позже, сейчас пользователь видит форму входа и может "нажать", но переключение будет работать после добавления кода.
-           Для удобства я оставлю оба блока, и покажу текущий активный с помощью CSS-класса (без js, но я сделаю так, чтобы по умолчанию отображался блок входа).
-           Однако в реальном проекте переключение сделает js. Сейчас просто статика, но всё готово. */
+        
         .cabinet-wrapper {
             margin: 48px 0 70px;
         }
 
-        /* блоки кабинета */
         .auth-section {
             max-width: 560px;
             margin: 0 auto;
@@ -150,7 +142,6 @@
             gap: 36px;
         }
 
-        /* стили формы */
         .form-title {
             font-size: 1.8rem;
             font-weight: 700;
@@ -219,7 +210,6 @@
             color: #4f5a7a;
         }
 
-        /* карточки профиля */
         .profile-header {
             display: flex;
             flex-wrap: wrap;
@@ -320,7 +310,6 @@
             cursor: pointer;
         }
 
-        /* вкладки в кабинете (без js, просто визуал) */
         .tabs-placeholder {
             display: flex;
             gap: 8px;
@@ -340,7 +329,6 @@
             border-bottom: 2px solid #ff4d5a;
         }
 
-        /* футер */
         .footer {
             background: #06070e;
             padding: 36px 0 24px;
@@ -351,7 +339,6 @@
             font-size: 0.8rem;
         }
 
-        /* кнопка вверх (визуал) */
         .scroll-top {
             position: fixed;
             bottom: 24px;
@@ -410,13 +397,6 @@
 </section>
 
 <div class="container cabinet-wrapper">
-    <!-- ⚠️ ДВА СОСТОЯНИЯ: "Форма входа" и "Профиль пользователя".
-         Поскольку JavaScript будет добавлен позже, сейчас обе секции статичны.
-         По умолчанию показываем форму входа (как неавторизованный пользователь).
-         В реальном проекте JS будет переключать видимость. 
-         Добавим атрибуты id и классы для упрощения будущей логики. -->
-    
-    <!-- Блок "АВТОРИЗАЦИЯ" (виден по умолчанию) -->
     <div id="loginBlock" class="auth-section" style="display: block;">
         <div class="form-title">Вход в клуб</div>
         <div class="form-sub">Доступ к расписанию, истории и абонементу</div>
@@ -438,81 +418,45 @@
             <button type="button" class="btn-outline-light" style="width:100%; background:transparent;" id="demoAccessBtn">Демо-доступ (гость)</button>
         </form>
     </div>
-
-    <!-- Блок "ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ" (скрыт по умолчанию, показывается после успешного входа через JS) 
-         для демонстрации вёрстки кабинета — показываем его? Нет, чтобы не сбивать с толку, оставим скрытым, но полностью сверстанным. 
-         Потом js просто переключит отображение. Добавим id="profileBlock" style="display: none;" -->
     <div id="profileBlock" style="display: none;">
         <div class="profile-section">
-            <!-- Верхняя карточка пользователя -->
             <div class="profile-header">
                 <div class="avatar">АР</div>
                 <div class="profile-info">
-                    <h2>Артём Романов</h2>
-                    <p>Член клуба с 2023 года • ID: FP-2847</p>
                     <span class="status-badge">✅ Активный абонемент "Premium"</span>
                 </div>
                 <div style="margin-left: auto;">
                     <button class="logout-btn" id="logoutMockBtn">Выйти</button>
                 </div>
             </div>
-
-            <!-- табы (визуальные, без js, просто статика) -->
             <div class="tabs-placeholder">
                 <div class="tab-item active">Мои тренировки</div>
                 <div class="tab-item">Абонемент</div>
                 <div class="tab-item">История</div>
                 <div class="tab-item">Настройки</div>
             </div>
-
-            <!-- сетка информации -->
             <div class="cards-grid">
-                <!-- ближайшие занятия -->
                 <div class="info-card">
                     <h3>📅 Ближайшие занятия</h3>
                     <ul class="trainings-list">
-                        <li><span>Кроссфит (ср, 19:00)</span> <button class="btn-small">Отменить</button></li>
-                        <li><span>Йога-поток (чт, 11:00)</span> <button class="btn-small">Отменить</button></li>
-                        <li><span>Body Pump (пт, 17:30)</span> <button class="btn-small">Перенести</button></li>
                     </ul>
                     <button class="btn-outline" style="margin-top: 16px; width:100%;">+ Записаться на тренировку</button>
                 </div>
-
-                <!-- активный абонемент -->
                 <div class="info-card">
                     <h3>💳 Мой абонемент</h3>
-                    <div class="membership-detail"><span>Тип:</span><span style="color:#ff9a7a;">Premium unlimited</span></div>
-                    <div class="membership-detail"><span>Действует до:</span><span>15 декабря 2025</span></div>
-                    <div class="membership-detail"><span>Осталось дней:</span><span>187 дней</span></div>
-                    <div class="membership-detail"><span>Заморозка:</span><span>доступна (30 дней)</span></div>
-                    <button class="btn-outline" style="margin-top: 20px;">Продлить абонемент</button>
                 </div>
-
-                <!-- статистика посещений -->
                 <div class="info-card">
                     <h3>📊 Статистика</h3>
-                    <div class="membership-detail"><span>Посещений в этом месяце:</span><span>12</span></div>
-                    <div class="membership-detail"><span>Всего тренировок:</span><span>87</span></div>
-                    <div class="membership-detail"><span>Сожжено калорий ≈</span><span>41 200 ккал</span></div>
-                    <div class="membership-detail"><span>Любимый тренер:</span><span>Артем Волков</span></div>
                 </div>
             </div>
-
-            <!-- история посещений (дополнительно) -->
             <div class="info-card" style="margin-top: 12px;">
                 <h3>📜 Последние тренировки</h3>
                 <ul class="trainings-list">
-                    <li><span>10.05.2025 — Кроссфит (тренер Д. Мусаев)</span><span>✅ 60 мин</span></li>
-                    <li><span>08.05.2025 — Силовой тренинг</span><span>✅ 50 мин</span></li>
-                    <li><span>05.05.2025 — Йога</span><span>✅ 75 мин</span></li>
                 </ul>
                 <button class="btn-outline" style="margin-top: 12px;">Показать всю историю</button>
             </div>
         </div>
     </div>
-
-    <!-- небольшой пояснение: при добавлении JS блоки будут переключаться. 
-    Вся разметка готова, id для кнопок присутствуют. -->
     <div style="background: #0e111b; border-radius: 28px; padding: 18px; margin-top: 32px; text-align: center; border: 1px solid #2a2f44;">
         <p style="font-size: 0.85rem; color:#9aa7cb;">🔐 Безопасный вход через соцсети и email. <br> После подключения JavaScript вы сможете переключаться между формой входа и личным кабинетом, просматривать абонементы и отменять тренировки.</p>
     </div>
@@ -533,17 +477,5 @@
 </footer>
 
 <button class="scroll-top" id="scrollUpBtn">↑</button>
-
-<!-- 
-    ⚡ ВНИМАНИЕ: 
-    В этой странице НЕТ РАБОЧЕГО JAVASCRIPT. Только HTML и CSS.
-    Все кнопки входа/выхода имеют ID: #loginBtnMock, #logoutMockBtn, #demoAccessBtn.
-    После добавления JS можно будет реализовать:
-    - при клике на "Войти" скрыть #loginBlock, показать #profileBlock
-    - при клике на "Выйти" – обратное переключение.
-    - Также формы и все интерактивные элементы готовы к обработчикам.
-    Дизайн полностью соответствует предыдущим страницам фитнес-клуба: темная тема, градиенты, карточки.
--->
-
 </body>
 </html>
