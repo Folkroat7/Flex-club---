@@ -19,14 +19,12 @@
             scroll-behavior: smooth;
         }
 
-        /* контейнер */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* ========== ХЕДЕР ========== */
         .header {
             background: rgba(10, 12, 16, 0.92);
             backdrop-filter: blur(12px);
@@ -95,7 +93,6 @@
             color: #0a0c10;
         }
 
-        /* мобильное меню (просто адаптив) */
         @media (max-width: 768px) {
             .nav {
                 flex-direction: column;
@@ -108,7 +105,6 @@
             }
         }
 
-        /* ========== ГЕРОЙ ========== */
         .hero {
             padding: 80px 0 100px;
             background: radial-gradient(circle at 80% 20%, #1e1f2c, #0a0c10);
@@ -223,7 +219,6 @@
             color: #ff5e6b;
         }
 
-        /* ========== СЕКЦИЯ преимущества ========== */
         .section {
             padding: 80px 0;
         }
@@ -273,7 +268,6 @@
             color: #a5b1c2;
         }
 
-        /* ========== РАСПИСАНИЕ / Абонементы ========== */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -344,7 +338,6 @@
             color: #0a0c10;
         }
 
-        /* тренеры */
         .coaches-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -385,7 +378,6 @@
             font-weight: 500;
         }
 
-        /* отзывы (дополнительно) */
         .testimonial {
             background: #0c0e16;
             border-radius: 40px;
@@ -408,7 +400,6 @@
             color: #ff6b5b;
         }
 
-        /* футер */
         .footer {
             background: #06070c;
             border-top: 1px solid #232634;
@@ -449,7 +440,6 @@
             font-size: 0.85rem;
         }
 
-        /* кнопка вверх (просто ui) */
         .scroll-top {
             position: fixed;
             bottom: 30px;
@@ -471,8 +461,6 @@
             color: white;
         }
 
-        /* стили для интерактива (без js только визуал) — JS потом добавит логику видимости */
-        /* но кнопка всегда есть, просто скрыта по умолчанию (JS потом активирует показ при скролле) */
         @media (max-width: 600px) {
             .hero-content h1 {
                 font-size: 2.2rem;
@@ -502,7 +490,6 @@
 </header>
 
 <main>
-    <!-- Hero секция -->
     <section class="hero">
         <div class="container">
             <div class="hero-grid">
@@ -533,7 +520,6 @@
         </div>
     </section>
 
-    <!-- Преимущества -->
     <section class="section">
         <div class="container">
             <h2 class="section-title">Почему <span>FLEXPOWER</span>?</h2>
@@ -562,7 +548,6 @@
         </div>
     </section>
 
-    <!-- Расписание / пакеты абонементов -->
     <section class="section" style="padding-top: 0;">
         <div class="container">
             <h2 class="section-title">Выбери свой <span>абонемент</span></h2>
@@ -605,7 +590,6 @@
         </div>
     </section>
 
-    <!-- Наши тренеры -->
     <section class="section">
         <div class="container">
             <h2 class="section-title">Элита <span>тренерского состава</span></h2>
@@ -638,7 +622,6 @@
         </div>
     </section>
 
-    <!-- Отзыв -->
     <div class="container">
         <div class="testimonial">
             <div class="testimonial-text">“ Лучший клуб, где я был! Профессиональные тренеры, атмосфера драйва и реальные результаты. За полгода сбросил 14 кг и подтянул всё тело. Советую каждому!”</div>
@@ -646,7 +629,6 @@
         </div>
     </div>
 
-    <!-- Призыв и контакты -->
     <section class="section" style="padding-bottom: 60px;">
         <div class="container" style="text-align: center;">
             <h2 style="font-size: 2rem;">Готов начать меняться?</h2>
@@ -686,19 +668,7 @@
     </div>
 </footer>
 
-<!-- Кнопка "наверх" (визуально готова, для JS останется сделать активной) -->
 <button class="scroll-top" id="scrollTopBtn">↑</button>
-
-<!-- 
-    ⚠️ ВНИМАНИЕ: JavaScript НЕ ТРЕБУЕТСЯ в этом файле, так как вы просили сделать ТОЛЬКО HTML/CSS.
-    Все кнопки и интерактивные элементы присутствуют в разметке и имеют атрибуты ID для будущей логики.
-    Здесь нет inline-скриптов, только чистый CSS и HTML. Данный код полностью готов к тому, 
-    чтобы вы добавили JS-файл отдельно и повесили обработчики на кнопки:
-    например, #heroMainBtn, #navCtaBtn, #footerCtaBtn, .price-btn, #tourBtn, #scrollTopBtn.
-    
-    Адаптивная сетка, hover-состояния, стилизация форм и карточек — настроены без единой строки JS.
-    Оформление полностью самостоятельно.
--->
 
 </body>
 </html>
